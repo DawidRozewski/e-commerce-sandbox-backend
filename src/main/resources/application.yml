@@ -1,0 +1,9 @@
+spring:
+    application:
+      name: sandbox
+    datasource:
+      url: ${DB_URL}
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+    liquibase:
+      change-log: classpath:liquibase-changelog.xml
