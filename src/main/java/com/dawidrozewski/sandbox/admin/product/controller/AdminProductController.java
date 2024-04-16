@@ -3,6 +3,7 @@ package com.dawidrozewski.sandbox.admin.product.controller;
 import com.dawidrozewski.sandbox.admin.product.controller.dto.AdminProductDto;
 import com.dawidrozewski.sandbox.admin.product.model.AdminProduct;
 import com.dawidrozewski.sandbox.admin.product.service.AdminProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,14 +27,13 @@ public class AdminProductController {
     }
 
     @PostMapping("/admin/products")
-    public AdminProduct createProduct(@RequestBody AdminProductDto adminProductDto) {
+    public AdminProduct createProduct(@RequestBody @Valid AdminProductDto adminProductDto) {
         return adminProductService.createProduct(mapAdminProduct(adminProductDto, EMPTY_ID));
     }
 
     @PutMapping("/admin/products/{id}")
-    public AdminProduct updateProduct(@RequestBody AdminProductDto adminProductDto, @PathVariable Long id) {
-        return adminProductService.updateProduct(mapAdminProduct(adminProductDto, id)
-        );
+    public AdminProduct updateProduct(@RequestBody @Valid AdminProductDto adminProductDto, @PathVariable Long id) {
+        return adminProductService.updateProduct(mapAdminProduct(adminProductDto, id));
     }
 
     private AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
