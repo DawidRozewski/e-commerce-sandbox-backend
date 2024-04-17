@@ -1,0 +1,25 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="6" author="dawid_rozewski">
+        <addColumn tableName="product">
+            <column name="category_id" type="bigint"/>
+        </addColumn>
+        <modifySql dbms="mysql">
+            <append value=" after category"/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="7" author="dawid_rozewski">
+        <dropColumn tableName="product" columnName="category"/>
+    </changeSet>
+
+    <changeSet id="8" author="dawid_rozewski">
+        <addForeignKeyConstraint baseTableName="product"
+                                 baseColumnNames="category_id"
+                                 constraintName="fk_product_category_id"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
