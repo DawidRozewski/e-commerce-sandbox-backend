@@ -30,4 +30,5 @@ public class AdminProduct {
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private AdminProductCurrency currency;
+    private String image;
 }
