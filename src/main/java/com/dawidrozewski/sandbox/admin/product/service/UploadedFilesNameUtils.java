@@ -6,11 +6,10 @@ import org.apache.commons.io.FilenameUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-class UploadedFilesNameUtils {
+public class UploadedFilesNameUtils {
 
     public static String slugifyFileName(String filename) {
-        Map<String, String> replacements = new HashMap<>();
-        replacements.put("_", "-");
+        Map<String, String> replacements = getReplacements();
 
         String name = FilenameUtils.getBaseName(filename);
         final Slugify slg = Slugify.builder()
@@ -19,5 +18,11 @@ class UploadedFilesNameUtils {
         final String changedName = slg.slugify(name);
 
         return changedName + "." + FilenameUtils.getExtension(filename);
+    }
+
+    public static Map<String, String> getReplacements() {
+        Map<String, String> replacements = new HashMap<>();
+        replacements.put("_", "-");
+        return replacements;
     }
 }

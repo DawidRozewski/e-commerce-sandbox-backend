@@ -5,6 +5,8 @@ import com.dawidrozewski.sandbox.admin.product.controller.dto.UploadResponse;
 import com.dawidrozewski.sandbox.admin.product.model.AdminProduct;
 import com.dawidrozewski.sandbox.admin.product.service.AdminProductImageService;
 import com.dawidrozewski.sandbox.admin.product.service.AdminProductService;
+import com.dawidrozewski.sandbox.admin.product.service.UploadedFilesNameUtils;
+import com.github.slugify.Slugify;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -88,6 +90,14 @@ public class AdminProductController {
                 .price(adminProductDto.getPrice())
                 .currency(adminProductDto.getCurrency())
                 .image(adminProductDto.getImage())
+                .slug(slugify(adminProductDto.getSlug()))
                 .build();
+    }
+
+    private String slugify(String slug) {
+        Slugify slugify = Slugify.builder()
+                .customReplacements(UploadedFilesNameUtils.getReplacements())
+                .build();
+        return slugify.slugify(slug);
     }
 }
