@@ -1,6 +1,5 @@
-package com.dawidrozewski.sandbox.product.model;
+package com.dawidrozewski.sandbox.common.model;
 
-import com.dawidrozewski.sandbox.review.model.Review;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

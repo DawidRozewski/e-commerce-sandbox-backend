@@ -1,11 +1,11 @@
 package com.dawidrozewski.sandbox.category.service;
 
-import com.dawidrozewski.sandbox.category.model.Category;
 import com.dawidrozewski.sandbox.category.controller.dto.CategoryProductDto;
 import com.dawidrozewski.sandbox.category.repository.CategoryRepository;
-import com.dawidrozewski.sandbox.product.controller.dto.ProductListDto;
-import com.dawidrozewski.sandbox.product.model.Product;
-import com.dawidrozewski.sandbox.product.repository.ProductRepository;
+import com.dawidrozewski.sandbox.common.dto.ProductListDto;
+import com.dawidrozewski.sandbox.common.model.Category;
+import com.dawidrozewski.sandbox.common.model.Product;
+import com.dawidrozewski.sandbox.common.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

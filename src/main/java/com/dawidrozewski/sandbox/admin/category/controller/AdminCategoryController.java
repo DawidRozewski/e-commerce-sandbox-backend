@@ -3,12 +3,12 @@ package com.dawidrozewski.sandbox.admin.category.controller;
 import com.dawidrozewski.sandbox.admin.category.controller.dto.AdminCategoryDto;
 import com.dawidrozewski.sandbox.admin.category.model.AdminCategory;
 import com.dawidrozewski.sandbox.admin.category.service.AdminCategoryService;
-import com.dawidrozewski.sandbox.admin.product.service.UploadedFilesNameUtils;
-import com.github.slugify.Slugify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.dawidrozewski.sandbox.admin.common.utils.SlugifyUtils.slugify;
 
 @RestController
 @RequestMapping("/admin/categories")
@@ -47,15 +47,8 @@ public class AdminCategoryController {
                 .id(id)
                 .name(adminCategoryDto.getName())
                 .description(adminCategoryDto.getDescription())
-                .slug(slugifyCategory(adminCategoryDto.getSlug()))
+                .slug(slugify(adminCategoryDto.getSlug()))
                 .build();
-    }
-
-    private String slugifyCategory(String slug) {
-        Slugify slugify = Slugify.builder()
-                .customReplacements(UploadedFilesNameUtils.getReplacements())
-                .build();
-        return slugify.slugify(slug);
     }
 
 }

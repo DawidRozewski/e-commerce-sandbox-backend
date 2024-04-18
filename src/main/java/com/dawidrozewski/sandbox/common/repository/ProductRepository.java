@@ -1,6 +1,6 @@
-package com.dawidrozewski.sandbox.product.repository;
+package com.dawidrozewski.sandbox.common.repository;
 
-import com.dawidrozewski.sandbox.product.model.Product;
+import com.dawidrozewski.sandbox.common.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

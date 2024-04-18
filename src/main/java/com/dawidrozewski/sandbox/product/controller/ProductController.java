@@ -1,7 +1,7 @@
 package com.dawidrozewski.sandbox.product.controller;
 
-import com.dawidrozewski.sandbox.product.controller.dto.ProductListDto;
-import com.dawidrozewski.sandbox.product.model.Product;
+import com.dawidrozewski.sandbox.common.dto.ProductListDto;
+import com.dawidrozewski.sandbox.common.model.Product;
 import com.dawidrozewski.sandbox.product.service.ProductService;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;

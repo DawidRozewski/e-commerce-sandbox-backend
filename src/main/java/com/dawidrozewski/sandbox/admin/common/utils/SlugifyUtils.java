@@ -1,4 +1,4 @@
-package com.dawidrozewski.sandbox.admin.product.service;
+package com.dawidrozewski.sandbox.admin.common.utils;
 
 import com.github.slugify.Slugify;
 import org.apache.commons.io.FilenameUtils;
@@ -6,7 +6,13 @@ import org.apache.commons.io.FilenameUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UploadedFilesNameUtils {
+public class SlugifyUtils {
+
+    public static Map<String, String> getReplacements() {
+        Map<String, String> replacements = new HashMap<>();
+        replacements.put("_", "-");
+        return replacements;
+    }
 
     public static String slugifyFileName(String filename) {
         Map<String, String> replacements = getReplacements();
@@ -20,9 +26,10 @@ public class UploadedFilesNameUtils {
         return changedName + "." + FilenameUtils.getExtension(filename);
     }
 
-    public static Map<String, String> getReplacements() {
-        Map<String, String> replacements = new HashMap<>();
-        replacements.put("_", "-");
-        return replacements;
+    public static String slugify(String slug) {
+        Slugify slugify = Slugify.builder()
+                .customReplacements(SlugifyUtils.getReplacements())
+                .build();
+        return slugify.slugify(slug);
     }
 }

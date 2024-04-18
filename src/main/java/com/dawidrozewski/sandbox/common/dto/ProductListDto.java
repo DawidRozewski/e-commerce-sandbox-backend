@@ -1,4 +1,4 @@
-package com.dawidrozewski.sandbox.product.controller.dto;
+package com.dawidrozewski.sandbox.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;

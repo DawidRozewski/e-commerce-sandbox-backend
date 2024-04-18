@@ -1,7 +1,7 @@
 package com.dawidrozewski.sandbox.review.controller;
 
+import com.dawidrozewski.sandbox.common.model.Review;
 import com.dawidrozewski.sandbox.review.controller.dto.ReviewDto;
-import com.dawidrozewski.sandbox.review.model.Review;
 import com.dawidrozewski.sandbox.review.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.dawidrozewski.sandbox.category.model;
+package com.dawidrozewski.sandbox.common.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

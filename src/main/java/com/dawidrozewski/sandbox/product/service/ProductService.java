@@ -1,7 +1,7 @@
 package com.dawidrozewski.sandbox.product.service;
 
-import com.dawidrozewski.sandbox.product.model.Product;
-import com.dawidrozewski.sandbox.product.repository.ProductRepository;
+import com.dawidrozewski.sandbox.common.model.Product;
+import com.dawidrozewski.sandbox.common.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
