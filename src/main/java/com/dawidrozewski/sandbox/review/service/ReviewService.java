@@ -1,7 +1,7 @@
 package com.dawidrozewski.sandbox.review.service;
 
 import com.dawidrozewski.sandbox.common.model.Review;
-import com.dawidrozewski.sandbox.review.repository.ReviewRepository;
+import com.dawidrozewski.sandbox.common.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

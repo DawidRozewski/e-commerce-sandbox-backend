@@ -1,11 +1,13 @@
 package com.dawidrozewski.sandbox.common.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,7 +24,4 @@ public class Product {
     private String currency;
     private String image;
     private String slug;
-    @OneToMany
-    @JoinColumn(name = "productId")
-    private List<Review> reviews;
 }

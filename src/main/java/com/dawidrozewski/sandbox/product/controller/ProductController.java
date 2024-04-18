@@ -3,6 +3,7 @@ package com.dawidrozewski.sandbox.product.controller;
 import com.dawidrozewski.sandbox.common.dto.ProductListDto;
 import com.dawidrozewski.sandbox.common.model.Product;
 import com.dawidrozewski.sandbox.product.service.ProductService;
+import com.dawidrozewski.sandbox.product.service.dto.ProductDto;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -39,7 +40,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{slug}")
-    public Product getProduct(
+    public ProductDto getProduct(
             @PathVariable
             @Pattern(regexp = "[a-z0-9\\-]+")
             @Length(max = 255)
