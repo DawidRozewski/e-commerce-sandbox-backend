@@ -1,7 +1,7 @@
 package com.dawidrozewski.sandbox.category.controller;
 
 import com.dawidrozewski.sandbox.category.model.Category;
-import com.dawidrozewski.sandbox.category.model.CategoryProductDto;
+import com.dawidrozewski.sandbox.category.controller.dto.CategoryProductDto;
 import com.dawidrozewski.sandbox.category.service.CategoryService;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
