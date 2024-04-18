@@ -1,0 +1,20 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="12" author="dawid_rozewski">
+        <createTable tableName="review">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_name" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="text"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
