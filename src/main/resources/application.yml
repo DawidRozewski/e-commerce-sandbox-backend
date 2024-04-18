@@ -20,3 +20,6 @@ server:
 
 app:
   uploadDir: ./data/productImages/
+  cart:
+    cleanup:
+      expression: "0 0 3 * * *"
