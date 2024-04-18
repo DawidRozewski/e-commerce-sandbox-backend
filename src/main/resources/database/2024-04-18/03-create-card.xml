@@ -1,0 +1,45 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="14" author="dawid_rozewski">
+        <createTable tableName="cart">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="created" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="15" author="dawid_rozewski">
+        <createTable tableName="cart_item">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int"/>
+            <column name="cart_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="16" author="dawid_rozewski">
+        <addForeignKeyConstraint baseTableName="cart_item"
+                                 baseColumnNames="product_id"
+                                 referencedTableName="product"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_cart_item_product_id"/>
+
+        <addForeignKeyConstraint baseTableName="cart_item"
+                                 baseColumnNames="cart_id"
+                                 referencedTableName="cart"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_cart_item_cart_id"/>
+    </changeSet>
+
+</databaseChangeLog>
