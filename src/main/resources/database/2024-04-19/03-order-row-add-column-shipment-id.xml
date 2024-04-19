@@ -1,0 +1,24 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="22" author="dawid_rozewski">
+        <modifyDataType columnName="productId" newDataType="bigint" tableName="order_row"/>
+    </changeSet>
+
+    <changeSet id="23" author="dawid_rozewski">
+        <addColumn tableName="order_row">
+            <column name="shipmentId" type="bigint"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="24" author="dawid_rozewski">
+        <addForeignKeyConstraint baseTableName="order_row"
+                                 baseColumnNames="shipmentId"
+                                 constraintName="fk_order_row_shipment_id"
+                                 referencedTableName="shipment"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
+
