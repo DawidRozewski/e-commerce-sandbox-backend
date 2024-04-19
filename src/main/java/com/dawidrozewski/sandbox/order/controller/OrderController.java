@@ -4,6 +4,7 @@ import com.dawidrozewski.sandbox.order.model.dto.InitOrder;
 import com.dawidrozewski.sandbox.order.model.dto.OrderDto;
 import com.dawidrozewski.sandbox.order.model.dto.OrderSummary;
 import com.dawidrozewski.sandbox.order.service.OrderService;
+import com.dawidrozewski.sandbox.order.service.PaymentService;
 import com.dawidrozewski.sandbox.order.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ShipmentService shipmentService;
+    private final PaymentService paymentService;
 
     @PostMapping
     public OrderSummary placeOrder(@RequestBody OrderDto orderDto) {
@@ -28,7 +30,8 @@ public class OrderController {
     @GetMapping("/initData")
     public InitOrder initData() {
         return InitOrder.builder()
-                .shipment(shipmentService.getShipments())
+                .shipments(shipmentService.getShipments())
+                .payments(paymentService.getPayments())
                 .build();
     }
 }

@@ -1,0 +1,27 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="25" author="dawid_rozewski">
+       <createTable tableName="payment">
+       <column name="id" type="bigint" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
+       <column name="name" type="varchar(64)"><constraints nullable="false"/></column>
+       <column name="type" type="varchar(32)"><constraints nullable="false"/></column>
+       <column name="defaultPayment" type="boolean" defaultValueBoolean="false"/>
+       <column name="note" type="text"/>
+       </createTable>
+    </changeSet>
+
+    <changeSet id="26" author="dawid_rozewski">
+        <insert tableName="payment">
+            <column name="id" value="1"/>
+            <column name="name" value="Bank Transfer"/>
+            <column name="type" value="BANK_TRANSFER"/>
+            <column name="defaultPayment" valueBoolean="true"/>
+            <column name="note" value="Please make a bank transfer to the following account: 30 1030 1739 5825 1518 9904 4499
+            Please include the order number in the transfer title."/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
+
