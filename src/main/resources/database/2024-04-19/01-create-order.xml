@@ -1,0 +1,43 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="17" author="dawid_rozewski">
+        <createTable tableName="`order`">
+            <column name="id" type="bigint" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
+            <column name="placeDate" type="datetime"><constraints nullable="false"/></column>
+            <column name="orderStatus" type="varchar(32)"><constraints nullable="false"/></column>
+            <column name="grossValue" type="decimal(6,2)"><constraints nullable="false"/></column>
+            <column name="firstname" type="varchar(64)"><constraints nullable="false"/></column>
+            <column name="lastname" type="varchar(64)"><constraints nullable="false"/></column>
+            <column name="street" type="varchar(80)"><constraints nullable="false"/></column>
+            <column name="zipcode" type="varchar(6)"><constraints nullable="false"/></column>
+            <column name="city" type="varchar(64)"><constraints nullable="false"/></column>
+            <column name="email" type="varchar(64)"><constraints nullable="false"/></column>
+            <column name="phone" type="varchar(16)"><constraints nullable="false"/></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="18" author="dawid_rozewski">
+        <createTable tableName="order_row">
+            <column name="id" type="bigint" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
+            <column name="order_id" type="bigint"><constraints nullable="false"/></column>
+            <column name="product_id" type="bigint"><constraints nullable="false"/></column>
+            <column name="quantity" type="int"><constraints nullable="false"/></column>
+            <column name="price" type="decimal(6,2)"><constraints nullable="false"/></column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="order_row"
+                                 baseColumnNames="order_id"
+                                 referencedTableName="`order`"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_order_row_order_id"/>
+
+        <addForeignKeyConstraint baseTableName="order_row"
+                                 baseColumnNames="product_id"
+                                 referencedTableName="product"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_order_row_product_id"/>
+    </changeSet>
+
+</databaseChangeLog>
+
