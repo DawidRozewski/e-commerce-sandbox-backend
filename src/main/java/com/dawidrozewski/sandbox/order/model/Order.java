@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "`order`")
+@Table(name = "order")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -32,7 +32,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     @OneToMany
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "orderId")
     private List<OrderRow> orderRows;
     private BigDecimal grossValue;
     private String firstname;

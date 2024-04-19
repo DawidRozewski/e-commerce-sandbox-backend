@@ -3,7 +3,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <changeSet id="17" author="dawid_rozewski">
-        <createTable tableName="`order`">
+        <createTable tableName="order">
             <column name="id" type="bigint" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
             <column name="placeDate" type="datetime"><constraints nullable="false"/></column>
             <column name="orderStatus" type="varchar(32)"><constraints nullable="false"/></column>
@@ -21,19 +21,19 @@
     <changeSet id="18" author="dawid_rozewski">
         <createTable tableName="order_row">
             <column name="id" type="bigint" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
-            <column name="order_id" type="bigint"><constraints nullable="false"/></column>
-            <column name="product_id" type="bigint"><constraints nullable="false"/></column>
+            <column name="orderId" type="bigint"><constraints nullable="false"/></column>
+            <column name="productId" type="bigint"><constraints nullable="false"/></column>
             <column name="quantity" type="int"><constraints nullable="false"/></column>
             <column name="price" type="decimal(6,2)"><constraints nullable="false"/></column>
         </createTable>
         <addForeignKeyConstraint baseTableName="order_row"
-                                 baseColumnNames="order_id"
-                                 referencedTableName="`order`"
+                                 baseColumnNames="orderId"
+                                 referencedTableName="order"
                                  referencedColumnNames="id"
                                  constraintName="fk_order_row_order_id"/>
 
         <addForeignKeyConstraint baseTableName="order_row"
-                                 baseColumnNames="product_id"
+                                 baseColumnNames="productId"
                                  referencedTableName="product"
                                  referencedColumnNames="id"
                                  constraintName="fk_order_row_product_id"/>
