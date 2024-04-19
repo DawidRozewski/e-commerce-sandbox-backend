@@ -1,6 +1,6 @@
 package com.dawidrozewski.sandbox.cart.service;
 
-import com.dawidrozewski.sandbox.cart.repository.CartItemRepository;
+import com.dawidrozewski.sandbox.common.repository.CartItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

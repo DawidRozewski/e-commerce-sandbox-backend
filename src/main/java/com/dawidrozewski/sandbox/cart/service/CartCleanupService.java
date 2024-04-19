@@ -1,8 +1,8 @@
 package com.dawidrozewski.sandbox.cart.service;
 
-import com.dawidrozewski.sandbox.cart.model.Cart;
-import com.dawidrozewski.sandbox.cart.repository.CartItemRepository;
-import com.dawidrozewski.sandbox.cart.repository.CartRepository;
+import com.dawidrozewski.sandbox.common.model.Cart;
+import com.dawidrozewski.sandbox.common.repository.CartItemRepository;
+import com.dawidrozewski.sandbox.common.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;

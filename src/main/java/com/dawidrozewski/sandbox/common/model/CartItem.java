@@ -1,4 +1,4 @@
-package com.dawidrozewski.sandbox.cart.model;
+package com.dawidrozewski.sandbox.common.model;
 
 import com.dawidrozewski.sandbox.common.model.Product;
 import jakarta.persistence.Entity;

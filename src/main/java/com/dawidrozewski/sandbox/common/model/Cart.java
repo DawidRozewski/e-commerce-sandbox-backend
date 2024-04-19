@@ -1,4 +1,4 @@
-package com.dawidrozewski.sandbox.cart.model;
+package com.dawidrozewski.sandbox.common.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

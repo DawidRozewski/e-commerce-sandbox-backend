@@ -1,9 +1,9 @@
 package com.dawidrozewski.sandbox.cart.service;
 
-import com.dawidrozewski.sandbox.cart.model.Cart;
-import com.dawidrozewski.sandbox.cart.model.CartItem;
+import com.dawidrozewski.sandbox.common.model.Cart;
+import com.dawidrozewski.sandbox.common.model.CartItem;
 import com.dawidrozewski.sandbox.cart.model.dto.CartProductDto;
-import com.dawidrozewski.sandbox.cart.repository.CartRepository;
+import com.dawidrozewski.sandbox.common.repository.CartRepository;
 import com.dawidrozewski.sandbox.common.model.Product;
 import com.dawidrozewski.sandbox.common.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;

@@ -4,8 +4,8 @@ import com.dawidrozewski.sandbox.cart.controller.dto.CartSummaryDto;
 import com.dawidrozewski.sandbox.cart.controller.dto.CartSummaryItemDto;
 import com.dawidrozewski.sandbox.cart.controller.dto.ProductDto;
 import com.dawidrozewski.sandbox.cart.controller.dto.SummaryDto;
-import com.dawidrozewski.sandbox.cart.model.Cart;
-import com.dawidrozewski.sandbox.cart.model.CartItem;
+import com.dawidrozewski.sandbox.common.model.Cart;
+import com.dawidrozewski.sandbox.common.model.CartItem;
 import com.dawidrozewski.sandbox.common.model.Product;
 
 import java.math.BigDecimal;
