@@ -41,4 +41,7 @@ public class AdminOrder {
     private String phone;
     @OneToOne
     private AdminPayment payment;
+    @OneToMany
+    @JoinColumn(name = "orderId")
+    private List<AdminOrderLog> orderLogs;
 }
