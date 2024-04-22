@@ -1,6 +1,5 @@
 package com.dawidrozewski.sandbox.common.model;
 
-import com.dawidrozewski.sandbox.common.model.Product;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

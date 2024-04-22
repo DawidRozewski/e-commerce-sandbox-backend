@@ -12,6 +12,18 @@ spring:
         pageable:
           default-page-size: 25
           max-page-size: 100
+    mail:
+      host: smtp.gmail.com
+      port: 587
+      username: ${MAIL_ACC}
+      password: ${MAIL_PASSWORD}
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+              required: true
 
 server:
   error:
@@ -23,3 +35,6 @@ app:
   cart:
     cleanup:
       expression: "0 0 3 * * *"
+
+  email:
+    sender: empty
