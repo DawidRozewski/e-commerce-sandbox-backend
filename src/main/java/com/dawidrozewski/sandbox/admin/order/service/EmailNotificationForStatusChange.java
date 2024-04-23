@@ -27,7 +27,7 @@ class EmailNotificationForStatusChange {
                     createCompletedEmailMessage(adminOrder.getId(), newStatus));
         } else if (newStatus == AdminOrderStatus.REFUND) {
             sendEmail(adminOrder.getEmail(),
-                    "Order " + adminOrder.getId() + " has been completed " + newStatus.getValue(),
+                    "Order " + adminOrder.getId() + " has been refund " + newStatus.getValue(),
                     createRefundEmail(adminOrder.getId(), newStatus));
         }
     }
