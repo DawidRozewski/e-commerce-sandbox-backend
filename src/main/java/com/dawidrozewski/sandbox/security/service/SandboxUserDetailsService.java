@@ -1,4 +1,4 @@
-package com.dawidrozewski.sandbox.security;
+package com.dawidrozewski.sandbox.security.service;
 
 import com.dawidrozewski.sandbox.security.model.SandboxUserDetails;
 import com.dawidrozewski.sandbox.security.model.User;

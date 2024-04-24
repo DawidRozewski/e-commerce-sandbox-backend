@@ -15,13 +15,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,4 +40,6 @@ public class User implements Serializable {
     @Column(name = "authority")
     @Enumerated(EnumType.STRING)
     private List<UserRole> authorities;
+    private String hash;
+    private LocalDateTime HashDate;
 }

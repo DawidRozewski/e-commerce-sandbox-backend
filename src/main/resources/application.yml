@@ -35,9 +35,9 @@ app:
   cart:
     cleanup:
       expression: "0 0 3 * * *"
-
   email:
     sender: empty
+  serviceAddress: http://localhost:4200
 
 logging:
   level:
