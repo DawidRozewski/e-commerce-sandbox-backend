@@ -1,5 +1,6 @@
 package com.dawidrozewski.sandbox.security;
 
+import com.dawidrozewski.sandbox.security.model.UserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -37,7 +32,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilter(new JwtAuthorizationFilter(authenticationManager, userDetailsService, secret))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole(UserRole.ROLE_CUSTOMER.getRole())
                         .anyRequest().permitAll());
 
         return http.build();
@@ -57,9 +52,9 @@ public class SecurityConfig {
 //                .build();
 //        return new InMemoryUserDetailsManager(admin);
 //    }
-//
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
-    }
+
+//    @Bean
+//    public UserDetailsService userDetailsService(DataSource dataSource) {
+//        return new JdbcUserDetailsManager(dataSource);
+//    }
 }
