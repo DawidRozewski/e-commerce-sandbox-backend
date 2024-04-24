@@ -38,3 +38,14 @@ app:
 
   email:
     sender: empty
+
+logging:
+  level:
+    org:
+      springframework:
+        web: info
+        security: debug
+
+jwt:
+  expireTime: ${EXPIRE_TIME}
+  secret: ${JWT_SECRET}
