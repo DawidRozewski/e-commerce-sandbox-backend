@@ -1,10 +1,9 @@
-package com.dawidrozewski.sandbox.admin.order.model;
-
+package com.dawidrozewski.sandbox.common.model;
 
 import lombok.Getter;
 
 @Getter
-public enum AdminOrderStatus {
+public enum OrderStatus {
     NEW("New"),
     PAID("Paid"),
     PROCESSING("Processing"),
@@ -13,9 +12,9 @@ public enum AdminOrderStatus {
     CANCELED("Canceled"),
     REFUND("Refund");
 
-    private String value;
+    private final String value;
 
-    AdminOrderStatus(String value) {
+    OrderStatus(String value) {
         this.value = value;
     }
 

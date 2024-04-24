@@ -1,9 +1,9 @@
 package com.dawidrozewski.sandbox.admin.order.service;
 
 import com.dawidrozewski.sandbox.admin.order.model.AdminOrder;
-import com.dawidrozewski.sandbox.admin.order.model.AdminOrderStatus;
 import com.dawidrozewski.sandbox.admin.order.model.dto.AdminOrderStats;
 import com.dawidrozewski.sandbox.admin.order.repository.AdminOrderRepository;
+import com.dawidrozewski.sandbox.common.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class AdminOrderStatsService {
     public AdminOrderStats getStatistics() {
         LocalDateTime from = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
         LocalDateTime to = LocalDateTime.now();
-        List<AdminOrder> orders = orderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(from, to, AdminOrderStatus.COMPLETED);
+        List<AdminOrder> orders = orderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(from, to, OrderStatus.COMPLETED);
 
 
         TreeMap<Integer, AdminOrderStatsValue> result = new TreeMap<>();

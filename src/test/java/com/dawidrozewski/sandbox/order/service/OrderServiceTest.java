@@ -7,7 +7,7 @@ import com.dawidrozewski.sandbox.common.model.CartItem;
 import com.dawidrozewski.sandbox.common.model.Product;
 import com.dawidrozewski.sandbox.common.repository.CartItemRepository;
 import com.dawidrozewski.sandbox.common.repository.CartRepository;
-import com.dawidrozewski.sandbox.order.model.OrderStatus;
+import com.dawidrozewski.sandbox.common.model.OrderStatus;
 import com.dawidrozewski.sandbox.order.model.Payment;
 import com.dawidrozewski.sandbox.order.model.PaymentType;
 import com.dawidrozewski.sandbox.order.model.Shipment;

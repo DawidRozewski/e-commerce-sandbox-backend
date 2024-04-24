@@ -4,7 +4,7 @@ import com.dawidrozewski.sandbox.common.model.Cart;
 import com.dawidrozewski.sandbox.common.model.CartItem;
 import com.dawidrozewski.sandbox.order.model.Order;
 import com.dawidrozewski.sandbox.order.model.OrderRow;
-import com.dawidrozewski.sandbox.order.model.OrderStatus;
+import com.dawidrozewski.sandbox.common.model.OrderStatus;
 import com.dawidrozewski.sandbox.order.model.Payment;
 import com.dawidrozewski.sandbox.order.model.Shipment;
 import com.dawidrozewski.sandbox.order.model.dto.OrderDto;

@@ -1,5 +1,6 @@
 package com.dawidrozewski.sandbox.order.model;
 
+import com.dawidrozewski.sandbox.common.model.OrderStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

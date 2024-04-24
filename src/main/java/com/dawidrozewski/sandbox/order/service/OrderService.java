@@ -8,6 +8,7 @@ import com.dawidrozewski.sandbox.order.model.Order;
 import com.dawidrozewski.sandbox.order.model.Payment;
 import com.dawidrozewski.sandbox.order.model.Shipment;
 import com.dawidrozewski.sandbox.order.model.dto.OrderDto;
+import com.dawidrozewski.sandbox.order.model.dto.OrderListDto;
 import com.dawidrozewski.sandbox.order.model.dto.OrderSummary;
 import com.dawidrozewski.sandbox.order.repository.OrderRepository;
 import com.dawidrozewski.sandbox.order.repository.OrderRowRepository;
@@ -18,6 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static com.dawidrozewski.sandbox.order.service.mapper.OrderDtoMapper.mapToOrderListDto;
 import static com.dawidrozewski.sandbox.order.service.mapper.OrderEmailMessageMapper.createEmailMessage;
 import static com.dawidrozewski.sandbox.order.service.mapper.OrderMapper.createNewOrder;
 import static com.dawidrozewski.sandbox.order.service.mapper.OrderMapper.createOrderSummary;
@@ -75,4 +79,9 @@ public class OrderService {
     private void saveShipmentRow(Long orderId, Shipment shipment) {
         orderRowRepository.save(mapToOrderRow(orderId, shipment));
     }
+
+    public List<OrderListDto> getOrdersForCustomer(Long userId) {
+        return mapToOrderListDto(orderRepository.findByUserId(userId));
+    }
+
 }

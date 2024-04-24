@@ -2,7 +2,7 @@ package com.dawidrozewski.sandbox.admin.order.repository;
 
 
 import com.dawidrozewski.sandbox.admin.order.model.AdminOrder;
-import com.dawidrozewski.sandbox.admin.order.model.AdminOrderStatus;
+import com.dawidrozewski.sandbox.common.model.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +13,5 @@ import java.util.List;
 public interface AdminOrderRepository extends JpaRepository<AdminOrder, Long> {
 
 
-    List<AdminOrder> findAllByPlaceDateIsBetweenAndOrderStatus(LocalDateTime from, LocalDateTime to, AdminOrderStatus orderStatus);
+    List<AdminOrder> findAllByPlaceDateIsBetweenAndOrderStatus(LocalDateTime from, LocalDateTime to, OrderStatus orderStatus);
 }

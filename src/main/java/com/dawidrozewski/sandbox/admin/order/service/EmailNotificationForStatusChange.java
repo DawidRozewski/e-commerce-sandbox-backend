@@ -1,8 +1,8 @@
 package com.dawidrozewski.sandbox.admin.order.service;
 
 import com.dawidrozewski.sandbox.admin.order.model.AdminOrder;
-import com.dawidrozewski.sandbox.admin.order.model.AdminOrderStatus;
 import com.dawidrozewski.sandbox.common.mail.EmailClientService;
+import com.dawidrozewski.sandbox.common.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +16,16 @@ class EmailNotificationForStatusChange {
 
     private final EmailClientService emailClientService;
 
-    void sendEmailNotification(AdminOrderStatus newStatus, AdminOrder adminOrder) {
-        if (newStatus == AdminOrderStatus.PROCESSING) {
+    void sendEmailNotification(OrderStatus newStatus, AdminOrder adminOrder) {
+        if (newStatus == OrderStatus.PROCESSING) {
             sendEmail(adminOrder.getEmail(),
                     "Order " + adminOrder.getId() + " changed status for: " + newStatus.getValue(),
                     creatingProcessingEmailMessage(adminOrder.getId(), newStatus));
-        } else if (newStatus == AdminOrderStatus.COMPLETED) {
+        } else if (newStatus == OrderStatus.COMPLETED) {
             sendEmail(adminOrder.getEmail(),
                     "Order " + adminOrder.getId() + " has been completed " + newStatus.getValue(),
                     createCompletedEmailMessage(adminOrder.getId(), newStatus));
-        } else if (newStatus == AdminOrderStatus.REFUND) {
+        } else if (newStatus == OrderStatus.REFUND) {
             sendEmail(adminOrder.getEmail(),
                     "Order " + adminOrder.getId() + " has been refund " + newStatus.getValue(),
                     createRefundEmail(adminOrder.getId(), newStatus));

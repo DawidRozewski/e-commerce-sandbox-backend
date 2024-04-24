@@ -1,9 +1,9 @@
 package com.dawidrozewski.sandbox.admin.order.service;
 
-import com.dawidrozewski.sandbox.admin.order.model.AdminOrderStatus;
+import com.dawidrozewski.sandbox.common.model.OrderStatus;
 
 public class AdminOrderEmailMessage {
-    public static String creatingProcessingEmailMessage(Long id, AdminOrderStatus newStatus) {
+    public static String creatingProcessingEmailMessage(Long id, OrderStatus newStatus) {
         return "Your order: " + id + " is being processed." +
                 "\n The status has been changed to: " + newStatus.getValue() +
                 "\n Your order is being processed by our staff" +
@@ -12,7 +12,7 @@ public class AdminOrderEmailMessage {
                 "\n Sandbox store";
     }
 
-    public static String createCompletedEmailMessage(Long id, AdminOrderStatus newStatus) {
+    public static String createCompletedEmailMessage(Long id, OrderStatus newStatus) {
         return "Your order: " + id + " has been completed." +
                 "\n The status has been changed to: " + newStatus.getValue() +
                 "\n Thank you for your purchase and welcome back." +
@@ -20,7 +20,7 @@ public class AdminOrderEmailMessage {
                 "\n Sandbox store";
     }
 
-    public static String createRefundEmail(Long id, AdminOrderStatus newStatus) {
+    public static String createRefundEmail(Long id, OrderStatus newStatus) {
         return "Your order: " + id + " has been refunded." +
                 "\n The status has been changed to: " + newStatus.getValue() +
                 "\n\n Best regards" +
