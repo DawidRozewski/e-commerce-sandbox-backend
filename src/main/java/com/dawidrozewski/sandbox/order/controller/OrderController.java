@@ -7,6 +7,7 @@ import com.dawidrozewski.sandbox.order.service.OrderService;
 import com.dawidrozewski.sandbox.order.service.PaymentService;
 import com.dawidrozewski.sandbox.order.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +24,8 @@ public class OrderController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public OrderSummary placeOrder(@RequestBody OrderDto orderDto) {
-        return orderService.placeOrder(orderDto);
+    public OrderSummary placeOrder(@RequestBody OrderDto orderDto, @AuthenticationPrincipal Long userId) {
+        return orderService.placeOrder(orderDto, userId);
     }
 
     @GetMapping("/initData")

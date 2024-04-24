@@ -38,11 +38,11 @@ public class OrderService {
     private final EmailClientService emailClientService;
 
     @Transactional
-    public OrderSummary placeOrder(OrderDto orderDto) {
+    public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
         Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
-        Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment));
+        Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment, userId));
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
         sendConfirmEmail(newOrder);
