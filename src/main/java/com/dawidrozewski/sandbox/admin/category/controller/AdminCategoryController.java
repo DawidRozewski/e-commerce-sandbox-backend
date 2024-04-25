@@ -4,6 +4,7 @@ import com.dawidrozewski.sandbox.admin.category.controller.dto.AdminCategoryDto;
 import com.dawidrozewski.sandbox.admin.category.model.AdminCategory;
 import com.dawidrozewski.sandbox.admin.category.service.AdminCategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,7 @@ public class AdminCategoryController {
 
     @PostMapping
     public AdminCategory createCategory(@RequestBody AdminCategoryDto adminCategoryDto) {
-        return adminCategoryService.createCategory(mapToAdminCategory(EMPTY_ID, adminCategoryDto));
+       return adminCategoryService.createCategory(mapToAdminCategory(EMPTY_ID, adminCategoryDto));
     }
 
     @PutMapping("/{id}")

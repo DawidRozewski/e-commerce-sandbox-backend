@@ -17,7 +17,7 @@ public class AdminCategoryService {
     }
 
     public AdminCategory getCategory(Long id) {
-        return adminCategoryRepository.findById(id).orElseThrow();
+        return adminCategoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category " + id + " do not exist."));
     }
 
     public AdminCategory createCategory(AdminCategory adminCategory) {

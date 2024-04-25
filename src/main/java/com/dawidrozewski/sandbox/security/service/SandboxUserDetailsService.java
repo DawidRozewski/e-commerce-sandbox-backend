@@ -19,8 +19,8 @@ public class SandboxUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow();
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow();
         SandboxUserDetails sandboxUserDetails = new SandboxUserDetails(
                 user.getUsername(),
                 user.getPassword(),

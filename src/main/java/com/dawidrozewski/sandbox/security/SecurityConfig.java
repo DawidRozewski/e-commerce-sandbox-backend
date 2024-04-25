@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilter(new JwtAuthorizationFilter(authenticationManager, userDetailsService, secret))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasRole(UserRole.ROLE_CUSTOMER.getRole())
+                        .requestMatchers("/admin/**").hasRole(UserRole.ROLE_ADMIN.getRole())
                         .anyRequest().permitAll());
 
         return http.build();
