@@ -5,9 +5,9 @@
     <changeSet id="17" author="dawid_rozewski">
         <createTable tableName="order_table">
             <column name="id" type="bigint" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
-            <column name="placeDate" type="datetime"><constraints nullable="false"/></column>
-            <column name="orderStatus" type="varchar(32)"><constraints nullable="false"/></column>
-            <column name="grossValue" type="decimal(6,2)"><constraints nullable="false"/></column>
+            <column name="place_date" type="datetime"><constraints nullable="false"/></column>
+            <column name="order_status" type="varchar(32)"><constraints nullable="false"/></column>
+            <column name="gross_value" type="decimal(6,2)"><constraints nullable="false"/></column>
             <column name="firstname" type="varchar(64)"><constraints nullable="false"/></column>
             <column name="lastname" type="varchar(64)"><constraints nullable="false"/></column>
             <column name="street" type="varchar(80)"><constraints nullable="false"/></column>
@@ -21,19 +21,19 @@
     <changeSet id="18" author="dawid_rozewski">
         <createTable tableName="order_row">
             <column name="id" type="bigint" autoIncrement="true"><constraints nullable="false" primaryKey="true"/></column>
-            <column name="orderId" type="bigint"><constraints nullable="false"/></column>
-            <column name="productId" type="bigint"><constraints nullable="false"/></column>
+            <column name="order_id" type="bigint"><constraints nullable="false"/></column>
+            <column name="product_id" type="bigint"><constraints nullable="false"/></column>
             <column name="quantity" type="int"><constraints nullable="false"/></column>
             <column name="price" type="decimal(6,2)"><constraints nullable="false"/></column>
         </createTable>
         <addForeignKeyConstraint baseTableName="order_row"
-                                 baseColumnNames="orderId"
+                                 baseColumnNames="order_id"
                                  referencedTableName="order_table"
                                  referencedColumnNames="id"
                                  constraintName="fk_order_row_order_id"/>
 
         <addForeignKeyConstraint baseTableName="order_row"
-                                 baseColumnNames="productId"
+                                 baseColumnNames="product_id"
                                  referencedTableName="product"
                                  referencedColumnNames="id"
                                  constraintName="fk_order_row_product_id"/>

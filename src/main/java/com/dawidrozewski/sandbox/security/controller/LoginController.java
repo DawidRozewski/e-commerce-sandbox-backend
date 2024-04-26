@@ -56,7 +56,7 @@ public class LoginController {
         }
         userRepository.save(User.builder()
                 .username(registerCredentials.getUsername())
-                .password("{bcrypt} " + new BCryptPasswordEncoder().encode(registerCredentials.getPassword()))
+                .password("{bcrypt}" + new BCryptPasswordEncoder().encode(registerCredentials.getPassword()))
                 .enabled(true)
                 .authorities(List.of(UserRole.ROLE_CUSTOMER))
                 .build());

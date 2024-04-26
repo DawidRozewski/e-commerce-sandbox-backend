@@ -8,7 +8,7 @@
             <column name="name" type="varchar(64)"><constraints nullable="false"/></column>
             <column name="price" type="decimal(6,2)"><constraints nullable="false"/></column>
             <column name="type" type="varchar(32)"><constraints nullable="false"/></column>
-            <column name="defaultShipment" type="boolean" defaultValueBoolean="false"/>
+            <column name="default_shipment" type="boolean" defaultValueBoolean="false"/>
         </createTable>
     </changeSet>
 
@@ -17,7 +17,7 @@
             <column name="name" value="Courier"/>
             <column name="price" valueNumeric="14.99"/>
             <column name="type" value="DELIVERYMAN"/>
-            <column name="defaultShipment" valueBoolean="true"/>
+            <column name="default_shipment" valueBoolean="true"/>
         </insert>
     </changeSet>
 
@@ -26,7 +26,7 @@
             <column name="name" value="Self Pickup"/>
             <column name="price" valueNumeric="0.0"/>
             <column name="type" value="SELFPICKUP"/>
-            <column name="defaultShipment" valueBoolean="false"/>
+            <column name="default_shipment" valueBoolean="false"/>
         </insert>
     </changeSet>
 

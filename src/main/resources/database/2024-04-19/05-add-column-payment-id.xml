@@ -4,18 +4,18 @@
 
     <changeSet id="27" author="dawid_rozewski">
         <addColumn tableName="order_table">
-            <column name="paymentId" type="bigint"/>
+            <column name="payment_id" type="bigint"/>
         </addColumn>
     </changeSet>
 
     <changeSet id="28" author="dawid_rozewski">
         <update tableName="order_table">
-            <column name="paymentId" value="1"/>
+            <column name="payment_id" value="1"/>
         </update>
     </changeSet>
 
     <changeSet id="29" author="dawid_rozewski">
-       <addNotNullConstraint tableName="order_table" columnName="paymentId" columnDataType="bigint"/>
+       <addNotNullConstraint tableName="order_table" columnName="payment_id" columnDataType="bigint"/>
     </changeSet>
 
 </databaseChangeLog>

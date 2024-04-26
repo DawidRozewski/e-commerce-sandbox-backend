@@ -3,18 +3,18 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
     <changeSet id="22" author="dawid_rozewski">
-        <modifyDataType columnName="productId" newDataType="bigint" tableName="order_row"/>
+        <modifyDataType columnName="product_id" newDataType="bigint" tableName="order_row"/>
     </changeSet>
 
     <changeSet id="23" author="dawid_rozewski">
         <addColumn tableName="order_row">
-            <column name="shipmentId" type="bigint"/>
+            <column name="shipment_id" type="bigint"/>
         </addColumn>
     </changeSet>
 
     <changeSet id="24" author="dawid_rozewski">
         <addForeignKeyConstraint baseTableName="order_row"
-                                 baseColumnNames="shipmentId"
+                                 baseColumnNames="shipment_id"
                                  constraintName="fk_order_row_shipment_id"
                                  referencedTableName="shipment"
                                  referencedColumnNames="id"/>

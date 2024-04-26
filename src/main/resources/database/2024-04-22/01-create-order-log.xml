@@ -5,7 +5,7 @@
     <changeSet id="30" author="dawid_rozewski">
         <createTable tableName="order_log">
             <column name="id" type="bigint" autoIncrement="true"><constraints primaryKey="true" nullable="false"/></column>
-            <column name="orderId" type="bigint"><constraints nullable="false"/></column>
+            <column name="order_id" type="bigint"><constraints nullable="false"/></column>
             <column name="created" type="datetime"><constraints nullable="false"/></column>
             <column name="note" type="text"/>
         </createTable>
