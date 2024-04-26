@@ -18,11 +18,8 @@ public class AdminOrderStatsService {
 
     private final AdminOrderRepository orderRepository;
 
-    public AdminOrderStats getStatistics() {
-        LocalDateTime from = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime to = LocalDateTime.now();
+    public AdminOrderStats getStatistics(LocalDateTime from, LocalDateTime to) {
         List<AdminOrder> orders = orderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(from, to, OrderStatus.COMPLETED);
-
 
         TreeMap<Integer, AdminOrderStatsValue> result = new TreeMap<>();
         for (int i = from.getDayOfMonth(); i <= to.getDayOfMonth(); i++) {
@@ -48,5 +45,5 @@ public class AdminOrderStatsService {
         return new AdminOrderStatsValue(totalValue, orderCount);
     }
 
-    private record AdminOrderStatsValue(BigDecimal sales, Long orders) {}
+    public record AdminOrderStatsValue(BigDecimal sales, Long orders) {}
 }
