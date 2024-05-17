@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class Cart {
     private LocalDateTime created;
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "cartId")
+    @Setter
     private List<CartItem> items;
 
     public void addProduct(CartItem cartItem) {
