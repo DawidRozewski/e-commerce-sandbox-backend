@@ -1,58 +1,52 @@
 package com.dawidrozewski.sandbox.admin.category.controller;
 
-import com.dawidrozewski.sandbox.admin.AdminHelper;
+import com.dawidrozewski.sandbox.AbstractConfiguredTest;
 import com.dawidrozewski.sandbox.admin.category.controller.dto.AdminCategoryDto;
 import com.dawidrozewski.sandbox.admin.category.model.AdminCategory;
+import com.dawidrozewski.sandbox.admin.category.repository.AdminCategoryRepository;
 import com.dawidrozewski.sandbox.admin.category.service.AdminCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
+import static com.dawidrozewski.sandbox.helper.AdminHelper.createAdminCategory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class AdminCategoryControllerTest {
+class AdminCategoryControllerTest extends AbstractConfiguredTest {
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
     private AdminCategoryService adminCategoryService;
 
-    @InjectMocks
-    private AdminCategoryController adminCategoryController;
+    @Autowired
+    private AdminCategoryRepository adminCategoryRepository;
+
+    private AdminCategory category1;
+    private AdminCategory category2;
+
+    @BeforeEach
+    void setUp() {
+        category1 = createAdminCategory("Category 1", "category-slug");
+        category2 = createAdminCategory("Category 2","category2-slug");
+        adminCategoryRepository.save(category1);
+        adminCategoryRepository.save(category2);
+    }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     void shouldReturnAllCategories() throws Exception {
         //Given
-        AdminCategory category1 = new AdminCategory(1L, "Category 1", "description 1", "category-1");
-        AdminCategory category2 = new AdminCategory(2L, "Category 2", "description 2", "category-2");
-        when(adminCategoryService.getCategories()).thenReturn(List.of(category1, category2));
-
         //When
         MvcResult mvcResult = mockMvc.perform(get("/admin/categories"))
                 .andExpect(status().isOk())
@@ -71,19 +65,16 @@ class AdminCategoryControllerTest {
     @WithMockUser(roles = "ADMIN")
     void shouldReturnCategoryById() throws Exception {
         //Given
-        AdminCategory category1 = new AdminCategory(1L, "Category 1", "description 1", "category-1");
-        when(adminCategoryService.getCategory(any())).thenReturn(category1);
-
         //When
-        MvcResult mvcResult = mockMvc.perform(get("/admin/categories/{id}", 1L))
+        MvcResult mvcResult = mockMvc.perform(get("/admin/categories/{id}", category1.getId()))
                 .andExpect(status().isOk())
                 .andReturn();
 
         //Then
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        AdminCategory adminCategory = objectMapper.readValue(contentAsString, AdminCategory.class);
-        assertEquals(1L, adminCategory.getId());
-        assertEquals(adminCategory.getName(), "Category 1");
+        AdminCategory result = objectMapper.readValue(contentAsString, AdminCategory.class);
+        assertEquals(result.getId(), category1.getId());
+        assertEquals(result.getName(), "Category 1");
     }
 
     @Test
@@ -95,7 +86,6 @@ class AdminCategoryControllerTest {
                 .description("test")
                 .slug("category-to-create")
                 .build();
-        when(adminCategoryService.createCategory(any(AdminCategory.class))).thenReturn(AdminHelper.mapToEntity(adminCategoryDto, 1L));
 
         //When
         MvcResult mvcResult = mockMvc.perform(post("/admin/categories")
@@ -107,16 +97,14 @@ class AdminCategoryControllerTest {
         //Then
         String contentAsString = mvcResult.getResponse().getContentAsString();
         AdminCategory adminCategory = objectMapper.readValue(contentAsString, AdminCategory.class);
-        assertEquals(adminCategory.getName(), "Category to create");
+        assertEquals("Category to create", adminCategory.getName());
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     void shouldUpdateCategoryAndReturnIt() throws Exception {
         // Given
-        AdminCategoryDto adminCategoryDto = new AdminCategoryDto("Updated Category", "Updated description", "updated-slug");
-        AdminCategory updatedCategory = AdminHelper.mapToEntity(adminCategoryDto, 1L);
-        when(adminCategoryService.updateCategory(any(AdminCategory.class))).thenReturn(updatedCategory);
+        AdminCategoryDto adminCategoryDto = new AdminCategoryDto("Updated Category 1", "Updated description 1", "updated-slug");
 
         // When
         MvcResult mvcResult = mockMvc.perform(put("/admin/categories/{id}", 1)
@@ -128,24 +116,26 @@ class AdminCategoryControllerTest {
         // Then
         String contentAsString = mvcResult.getResponse().getContentAsString();
         AdminCategory returnedCategory = new ObjectMapper().readValue(contentAsString, AdminCategory.class);
-        assertEquals("Updated Category", returnedCategory.getName());
+        assertEquals("Updated Category 1", returnedCategory.getName());
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     void shouldDeleteCategory() throws Exception {
+        //Given
         // When
-        mockMvc.perform(delete("/admin/categories/{id}", 1))
+        mockMvc.perform(delete("/admin/categories/{id}", category1.getId()))
                 .andExpect(status().isOk());
 
         // Then
-        verify(adminCategoryService).deleteCategory(1L);
+        List<AdminCategory> all = adminCategoryRepository.findAll();
+        assertEquals(1, all.size());
+        assertEquals("Category 2", all.get(0).getName());
     }
 
     @Test
     void shouldDeniedAccessIfUserIsNotAdmin() throws Exception {
         mockMvc.perform(get("/admin/categories/"))
                 .andExpect(status().isForbidden());
-
     }
 }

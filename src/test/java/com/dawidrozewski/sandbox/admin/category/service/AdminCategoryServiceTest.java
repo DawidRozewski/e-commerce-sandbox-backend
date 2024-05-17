@@ -1,6 +1,5 @@
 package com.dawidrozewski.sandbox.admin.category.service;
 
-import com.dawidrozewski.sandbox.admin.category.controller.dto.AdminCategoryDto;
 import com.dawidrozewski.sandbox.admin.category.model.AdminCategory;
 import com.dawidrozewski.sandbox.admin.category.repository.AdminCategoryRepository;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
