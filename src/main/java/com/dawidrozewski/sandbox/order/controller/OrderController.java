@@ -1,6 +1,5 @@
 package com.dawidrozewski.sandbox.order.controller;
 
-import com.dawidrozewski.sandbox.order.model.Order;
 import com.dawidrozewski.sandbox.order.model.dto.InitOrder;
 import com.dawidrozewski.sandbox.order.model.dto.OrderDto;
 import com.dawidrozewski.sandbox.order.model.dto.OrderListDto;
