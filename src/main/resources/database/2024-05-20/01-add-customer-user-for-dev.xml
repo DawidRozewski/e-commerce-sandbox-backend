@@ -1,0 +1,17 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="40" author="dawid_rozewski">
+        <insert tableName="users">
+            <column name="username" value="customer@customer.com"/>
+            <column name="password" value="{bcrypt}$2a$10$JFZz6U94u.9oY2bWz9BK7uoAJyuyg7J6OSu0fpJiEyvsSbEHGeVeK"/>
+            <column name="enabled" value="1"/>
+        </insert>
+        <insert tableName="authorities">
+            <column name="username" value="customer@customer.com"/>
+            <column name="authority" value="ROLE_CUSTOMER"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
