@@ -7,8 +7,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,6 +20,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/review")
+    @ResponseStatus(HttpStatus.CREATED)
     public Review addReview(@RequestBody @Valid ReviewDto reviewDto) {
         return reviewService.addReview(Review.builder()
                 .authorName(cleanContent(reviewDto.authorName()))
