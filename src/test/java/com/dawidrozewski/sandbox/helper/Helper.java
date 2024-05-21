@@ -4,6 +4,8 @@ import com.dawidrozewski.sandbox.common.model.Cart;
 import com.dawidrozewski.sandbox.common.model.CartItem;
 import com.dawidrozewski.sandbox.common.model.Category;
 import com.dawidrozewski.sandbox.common.model.Product;
+import com.dawidrozewski.sandbox.common.model.Review;
+import com.dawidrozewski.sandbox.product.service.dto.ReviewDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -44,6 +46,24 @@ public class Helper {
                 .name("category")
                 .slug(slug)
                 .description("category-description")
+                .build();
+    }
+
+    public static ReviewDto createReviewDto(Product product) {
+        return ReviewDto.builder()
+                .authorName("Jhon Doe")
+                .productId(product.getId())
+                .content("<p>test <b>content</b></p>")
+                .moderate(true)
+                .build();
+    }
+
+    public static Review createReview(Product product, boolean moderated) {
+        return Review.builder()
+                .authorName("Jhon")
+                .content("test content")
+                .productId(product.getId())
+                .moderated(moderated)
                 .build();
     }
 }

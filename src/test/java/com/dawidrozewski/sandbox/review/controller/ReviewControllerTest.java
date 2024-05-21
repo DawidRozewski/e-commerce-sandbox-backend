@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 
 import static com.dawidrozewski.sandbox.helper.Helper.createCategory;
 import static com.dawidrozewski.sandbox.helper.Helper.createProduct;
+import static com.dawidrozewski.sandbox.helper.Helper.createReviewDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,12 +42,7 @@ class ReviewControllerTest extends AbstractConfiguredTest {
         Product product = createProduct(category.getId(), new BigDecimal("5.00"), "product-slug");
         productRepository.save(product);
 
-        ReviewDto reviewDto = ReviewDto.builder()
-                .authorName("Jhon Doe")
-                .productId(product.getId())
-                .content("<p>test <b>content</b></p>")
-                .moderate(true)
-                .build();
+        ReviewDto reviewDto = createReviewDto(product);
 
         //When
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/review")
@@ -62,4 +58,5 @@ class ReviewControllerTest extends AbstractConfiguredTest {
         assertEquals(reviewDto.getProductId(), returnedReview.getProductId());
         assertEquals("test content", returnedReview.getContent());
     }
+
 }
