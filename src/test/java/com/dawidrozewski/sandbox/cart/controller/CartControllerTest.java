@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +66,7 @@ class CartControllerTest extends AbstractConfiguredTest {
         productRepository.save(product);
         productRepository.save(product2);
 
-        cart = createCart(cartItemList);
+        cart = createCart(cartItemList, LocalDateTime.now().minusDays(5));
         cartRepository.save(cart);
 
         CartItem cartItem = createCartItem(cart.getId(), 1, product);
