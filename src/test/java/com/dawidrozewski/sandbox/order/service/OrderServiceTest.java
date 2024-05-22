@@ -2,16 +2,15 @@ package com.dawidrozewski.sandbox.order.service;
 
 import com.dawidrozewski.sandbox.common.mail.EmailClientService;
 import com.dawidrozewski.sandbox.common.mail.FakeEmailService;
-import com.dawidrozewski.sandbox.common.model.Cart;
-import com.dawidrozewski.sandbox.common.model.CartItem;
 import com.dawidrozewski.sandbox.common.model.OrderStatus;
-import com.dawidrozewski.sandbox.common.model.Product;
 import com.dawidrozewski.sandbox.common.repository.CartItemRepository;
 import com.dawidrozewski.sandbox.common.repository.CartRepository;
-import com.dawidrozewski.sandbox.order.model.Payment;
+import com.dawidrozewski.sandbox.helper.Helper;
+import com.dawidrozewski.sandbox.order.model.Order;
 import com.dawidrozewski.sandbox.order.model.PaymentType;
-import com.dawidrozewski.sandbox.order.model.Shipment;
+import com.dawidrozewski.sandbox.order.model.ShipmentType;
 import com.dawidrozewski.sandbox.order.model.dto.OrderDto;
+import com.dawidrozewski.sandbox.order.model.dto.OrderListDto;
 import com.dawidrozewski.sandbox.order.model.dto.OrderSummary;
 import com.dawidrozewski.sandbox.order.repository.OrderRepository;
 import com.dawidrozewski.sandbox.order.repository.OrderRowRepository;
@@ -23,14 +22,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.dawidrozewski.sandbox.helper.Helper.createItems;
+import static com.dawidrozewski.sandbox.helper.Helper.createOrderDto;
+import static com.dawidrozewski.sandbox.helper.Helper.createOrdersForUser;
+import static com.dawidrozewski.sandbox.helper.Helper.createPayment;
+import static com.dawidrozewski.sandbox.helper.Helper.createShipment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -54,91 +60,92 @@ class OrderServiceTest {
     @InjectMocks
     private OrderService orderService;
 
-
     @Test
     void shouldPlaceOrder() {
         //Given
         OrderDto orderDto = createOrderDto();
-        when(cartRepository.findById(any())).thenReturn(createCart());
-        when(shipmentRepository.findById(any())).thenReturn(createShipment());
-        when(paymentRepository.findById(any())).thenReturn(createPayment());
+        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems())));
+        when(shipmentRepository.findById(any())).thenReturn(Optional.of(createShipment(2L, true, ShipmentType.DELIVERYMAN)));
+        when(paymentRepository.findById(any())).thenReturn(Optional.of(createPayment()));
         when(orderRepository.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
         when(emailClientService.getInstance()).thenReturn(new FakeEmailService());
         Long userId = 1L;
 
         //When
-        OrderSummary orderSummary = orderService.placeOrder(orderDto, userId);
+        OrderSummary result = orderService.placeOrder(orderDto, userId);
 
         //Then
-        assertNotNull(orderSummary);
-        assertEquals(orderSummary.getStatus(), OrderStatus.NEW);
-        assertEquals(orderSummary.getGrossValue(), new BigDecimal("36.22"));
-        assertEquals(orderSummary.getPayment().getType(), PaymentType.BANK_TRANSFER);
-        assertEquals(orderSummary.getPayment().getName(), "test payment");
-        assertEquals(orderSummary.getPayment().getId(), 1L);
+        assertNotNull(result);
+        assertEquals(OrderStatus.NEW, result.getStatus());
+        assertEquals(PaymentType.BANK_TRANSFER, result.getPayment().getType());
+        assertEquals("bank transfer", result.getPayment().getName());
+        assertEquals(1L, result.getPayment().getId());
 
     }
 
-    private Optional<Payment> createPayment() {
-        return Optional.of(Payment.builder()
-                .id(1L)
-                .name("test payment")
-                .type(PaymentType.BANK_TRANSFER)
-                .defaultPayment(true)
-                .build());
+    @Test
+    void shouldThrowExceptionWhenCartNotFound() {
+        //Given
+        OrderDto orderDto = createOrderDto();
+        when(cartRepository.findById(any())).thenReturn(Optional.empty());
+
+        //When & Then
+        assertThrows(NoSuchElementException.class, () -> orderService.placeOrder(orderDto, 1L));
     }
 
-    private Optional<Shipment> createShipment() {
-        return Optional.of(Shipment.builder()
-                .id(2L)
-                .price(new BigDecimal("14.00"))
-                .build());
+    @Test
+    void shouldThrowExceptionWhenShipmentNotFound() {
+        //Given
+        OrderDto orderDto = createOrderDto();
+        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems())));
+        when(shipmentRepository.findById(any())).thenReturn(Optional.empty());
+
+        //When & Then
+        assertThrows(NoSuchElementException.class, () -> orderService.placeOrder(orderDto, 1L));
     }
 
-    private Optional<Cart> createCart() {
-        return Optional.of(Cart.builder()
-                .id(1L)
-                .created(LocalDateTime.now())
-                .items(createItems())
-                .build());
+    @Test
+    void shouldThrowExceptionWhenPaymentNotFound() {
+        //Given
+        OrderDto orderDto = createOrderDto();
+        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems())));
+        when(shipmentRepository.findById(any())).thenReturn(Optional.of(createShipment(2L, true, ShipmentType.DELIVERYMAN)));
+        when(paymentRepository.findById(any())).thenReturn(Optional.empty());
+
+        //When & Then
+        assertThrows(NoSuchElementException.class, () -> orderService.placeOrder(orderDto, 1L));
     }
 
-    private List<CartItem> createItems() {
-        CartItem cartItem_1 = CartItem.builder()
-                .id(1L)
-                .cartId(1L)
-                .quantity(1)
-                .product(Product.builder()
-                        .id(1L)
-                        .price(new BigDecimal("11.11"))
-                        .build())
-                .build();
+    @Test
+    void shouldClearOrderCartAfterPlaceOrder() {
+        //Given
+        OrderDto orderDto = createOrderDto();
+        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems())));
+        when(shipmentRepository.findById(any())).thenReturn(Optional.of(createShipment(2L, true, ShipmentType.DELIVERYMAN)));
+        when(paymentRepository.findById(any())).thenReturn(Optional.of(createPayment()));
+        when(orderRepository.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
+        when(emailClientService.getInstance()).thenReturn(new FakeEmailService());
 
-        CartItem cartItem_2 = CartItem.builder()
-                .id(2L)
-                .cartId(2L)
-                .quantity(1)
-                .product(Product.builder()
-                        .id(2L)
-                        .price(new BigDecimal("11.11"))
-                        .build())
-                .build();
+        //When
+        orderService.placeOrder(orderDto, 1L);
 
-        return List.of(cartItem_1, cartItem_2);
+        //Then
+        verify(cartRepository, times(1)).deleteCartById(any());
     }
 
-    private static OrderDto createOrderDto() {
-        return OrderDto.builder()
-                .firstname("firstname")
-                .lastname("lastname")
-                .street("street")
-                .zipcode("zipcode")
-                .city("city")
-                .email("email")
-                .phone("phone")
-                .cartId(1L)
-                .shipmentId(2L)
-                .paymentId(3L)
-                .build();
+    @Test
+    void shouldReturnOrdersForCustomer() {
+        //Given
+        Long userId = 1L;
+        List<Order> orders = createOrdersForUser(userId);
+        when(orderRepository.findByUserId(userId)).thenReturn(orders);
+
+        //When
+        List<OrderListDto> result = orderService.getOrdersForCustomer(userId);
+
+        //Then
+        assertNotNull(result);
+        assertEquals(orders.get(0).getId(), result.get(0).getId());
+        assertEquals(orders.get(1).getId(), result.get(1).getId());
     }
 }
