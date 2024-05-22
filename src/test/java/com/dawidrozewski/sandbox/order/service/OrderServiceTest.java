@@ -22,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -64,7 +65,7 @@ class OrderServiceTest {
     void shouldPlaceOrder() {
         //Given
         OrderDto orderDto = createOrderDto();
-        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems())));
+        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems(), LocalDateTime.now().minusDays(5))));
         when(shipmentRepository.findById(any())).thenReturn(Optional.of(createShipment(2L, true, ShipmentType.DELIVERYMAN)));
         when(paymentRepository.findById(any())).thenReturn(Optional.of(createPayment()));
         when(orderRepository.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
@@ -97,7 +98,7 @@ class OrderServiceTest {
     void shouldThrowExceptionWhenShipmentNotFound() {
         //Given
         OrderDto orderDto = createOrderDto();
-        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems())));
+        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems(), LocalDateTime.now().minusDays(5))));
         when(shipmentRepository.findById(any())).thenReturn(Optional.empty());
 
         //When & Then
@@ -108,7 +109,7 @@ class OrderServiceTest {
     void shouldThrowExceptionWhenPaymentNotFound() {
         //Given
         OrderDto orderDto = createOrderDto();
-        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems())));
+        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems(), LocalDateTime.now().minusDays(5))));
         when(shipmentRepository.findById(any())).thenReturn(Optional.of(createShipment(2L, true, ShipmentType.DELIVERYMAN)));
         when(paymentRepository.findById(any())).thenReturn(Optional.empty());
 
@@ -120,7 +121,7 @@ class OrderServiceTest {
     void shouldClearOrderCartAfterPlaceOrder() {
         //Given
         OrderDto orderDto = createOrderDto();
-        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems())));
+        when(cartRepository.findById(any())).thenReturn(Optional.of(Helper.createCart(createItems(), LocalDateTime.now().minusDays(5))));
         when(shipmentRepository.findById(any())).thenReturn(Optional.of(createShipment(2L, true, ShipmentType.DELIVERYMAN)));
         when(paymentRepository.findById(any())).thenReturn(Optional.of(createPayment()));
         when(orderRepository.save(any())).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);

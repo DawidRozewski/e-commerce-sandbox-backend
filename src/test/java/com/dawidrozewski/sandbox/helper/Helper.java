@@ -7,7 +7,6 @@ import com.dawidrozewski.sandbox.common.model.OrderStatus;
 import com.dawidrozewski.sandbox.common.model.Product;
 import com.dawidrozewski.sandbox.common.model.Review;
 import com.dawidrozewski.sandbox.order.model.Order;
-import com.dawidrozewski.sandbox.order.model.OrderRow;
 import com.dawidrozewski.sandbox.order.model.Payment;
 import com.dawidrozewski.sandbox.order.model.PaymentType;
 import com.dawidrozewski.sandbox.order.model.Shipment;
@@ -29,10 +28,10 @@ public class Helper {
                 .build();
     }
 
-    public static Cart createCart(List<CartItem> cartItemList) {
+    public static Cart createCart(List<CartItem> cartItemList, LocalDateTime created) {
         return Cart.builder()
                 .items(cartItemList)
-                .created(LocalDateTime.now().minusDays(5))
+                .created(created)
                 .build();
     }
 
