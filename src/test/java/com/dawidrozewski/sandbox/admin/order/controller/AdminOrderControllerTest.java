@@ -2,6 +2,7 @@ package com.dawidrozewski.sandbox.admin.order.controller;
 
 import com.dawidrozewski.sandbox.AbstractConfiguredTest;
 import com.dawidrozewski.sandbox.admin.category.service.AdminCategoryService;
+import com.dawidrozewski.sandbox.admin.order.controller.dto.AdminInitDataDto;
 import com.dawidrozewski.sandbox.admin.order.controller.dto.AdminOrderDto;
 import com.dawidrozewski.sandbox.admin.order.model.AdminOrder;
 import com.dawidrozewski.sandbox.admin.order.model.AdminPayment;
@@ -25,6 +26,8 @@ import java.util.Map;
 import static com.dawidrozewski.sandbox.helper.AdminHelper.createAdminOrder;
 import static com.dawidrozewski.sandbox.helper.AdminHelper.createAdminPayment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -108,5 +111,29 @@ class AdminOrderControllerTest extends AbstractConfiguredTest {
         AdminOrder updatedOrder = adminOrderRepository.findById(order1.getId()).get();
         assertEquals(updatedOrder.getId(), order1.getId());
         assertEquals(OrderStatus.PAID, updatedOrder.getOrderStatus());
+    }
+
+    @WithMockUser(roles = "ADMIN")
+    @Test
+    void shouldReturnMapWithOrderStatuses() throws Exception {
+        //Given
+
+        //When
+        MvcResult mvcResult = mockMvc.perform(get("/admin/orders/initData"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        //Then
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        AdminInitDataDto adminInitDataDto = objectMapper.readValue(contentAsString, AdminInitDataDto.class);
+        assertNotNull(adminInitDataDto.getOrderStatuses());
+        assertTrue(adminInitDataDto.getOrderStatuses().containsKey(OrderStatus.NEW.name()));
+        assertTrue(adminInitDataDto.getOrderStatuses().containsKey(OrderStatus.PAID.name()));
+        assertTrue(adminInitDataDto.getOrderStatuses().containsKey(OrderStatus.PROCESSING.name()));
+        assertTrue(adminInitDataDto.getOrderStatuses().containsKey(OrderStatus.WAITING_FOR_DELIVERY.name()));
+        assertTrue(adminInitDataDto.getOrderStatuses().containsKey(OrderStatus.COMPLETED.name()));
+        assertTrue(adminInitDataDto.getOrderStatuses().containsKey(OrderStatus.CANCELED.name()));
+        assertTrue(adminInitDataDto.getOrderStatuses().containsKey(OrderStatus.REFUND.name()));
+        assertEquals(7, adminInitDataDto.getOrderStatuses().size());
     }
 }

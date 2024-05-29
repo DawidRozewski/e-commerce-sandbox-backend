@@ -30,7 +30,7 @@ import java.util.Optional;
 import static com.dawidrozewski.sandbox.helper.Helper.createItems;
 import static com.dawidrozewski.sandbox.helper.Helper.createOrderDto;
 import static com.dawidrozewski.sandbox.helper.Helper.createOrdersForUser;
-import static com.dawidrozewski.sandbox.helper.Helper.createPayment ;
+import static com.dawidrozewski.sandbox.helper.Helper.createPayment;
 import static com.dawidrozewski.sandbox.helper.Helper.createShipment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

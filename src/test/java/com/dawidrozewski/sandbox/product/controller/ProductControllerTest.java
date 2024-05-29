@@ -6,7 +6,6 @@ import com.dawidrozewski.sandbox.common.dto.ProductListDto;
 import com.dawidrozewski.sandbox.common.model.Category;
 import com.dawidrozewski.sandbox.common.model.Product;
 import com.dawidrozewski.sandbox.common.repository.ProductRepository;
-import com.dawidrozewski.sandbox.helper.Helper;
 import com.dawidrozewski.sandbox.helper.PageResponse;
 import com.dawidrozewski.sandbox.product.service.ProductService;
 import com.dawidrozewski.sandbox.product.service.dto.ProductDto;
@@ -15,14 +14,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 
 import static com.dawidrozewski.sandbox.helper.Helper.createCategory;
 import static com.dawidrozewski.sandbox.helper.Helper.createProduct;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ProductControllerTest extends AbstractConfiguredTest {

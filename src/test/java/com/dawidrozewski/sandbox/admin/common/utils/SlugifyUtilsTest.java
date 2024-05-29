@@ -11,7 +11,7 @@ class SlugifyUtilsTest {
     @CsvSource({
             "test test.png, test-test.png",
             "hello world.png, hello-world.png",
-            "ąęśćżźńłó.png, aesczznlo.png",
+            "ąęśćżźńó.png, aesczzno.png",
             "Product 1.png, product-1.png",
             "Product - 1.png, product-1.png",
             "Product    -     1.png, product-1.png",

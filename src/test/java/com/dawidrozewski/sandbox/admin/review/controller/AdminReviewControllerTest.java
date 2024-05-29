@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.dawidrozewski.sandbox.helper.AdminHelper.createAdminReview;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +36,7 @@ class AdminReviewControllerTest extends AbstractConfiguredTest {
 
     @BeforeEach
     void setUp() {
+        adminReviewRepository.deleteAll();
         review = createAdminReview("Jhon", true, 1L);
         review2 = createAdminReview("Doe", false, 2L);
         adminReviewRepository.save(review);
@@ -61,15 +63,16 @@ class AdminReviewControllerTest extends AbstractConfiguredTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     void shouldChangeModeratedValueToTrue() throws Exception {
         //Given
         //When
         mockMvc.perform(put("/admin/reviews/{id}/moderate", review2.getId()))
                 .andExpect(status().isOk());
+
         //Then
-        Optional<AdminReview> moderatedReview = adminReviewRepository.findById(review2.getId());
-        assertTrue(moderatedReview.isPresent());
-        assertTrue(moderatedReview.get().isModerated());
+        review2 = adminReviewRepository.findById(review2.getId()).orElseThrow();
+        assertTrue(review2.isModerated());
     }
 
     @Test

@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,6 +19,7 @@ import java.time.temporal.ChronoUnit;
 import static com.dawidrozewski.sandbox.helper.AdminHelper.createAdminOrder;
 import static com.dawidrozewski.sandbox.helper.AdminHelper.createAdminPayment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -35,24 +35,27 @@ class AdminOrderStatsControllerTest extends AbstractConfiguredTest {
     @WithMockUser(roles = "ADMIN")
     void getOrderStatistics() throws Exception {
         //Given
+        int dayOfOrder = 1;
         LocalDateTime from = LocalDateTime.now().minusDays(10);
         LocalDateTime to = LocalDateTime.now();
         long daysOfOrderStatistic = ChronoUnit.DAYS.between(from.toLocalDate(), to.toLocalDate()) + 1;
 
         AdminPayment payment = createAdminPayment(70L);
-        AdminOrder order = createAdminOrder(payment, OrderStatus.COMPLETED, from);
+        AdminOrder order = createAdminOrder(payment, OrderStatus.COMPLETED, from.plusDays(dayOfOrder));
         order.setGrossValue(new BigDecimal("5.00"));
         adminOrderRepository.save(order);
 
-        AdminOrder order2 = createAdminOrder(payment, OrderStatus.COMPLETED, from);
+        AdminOrder order2 = createAdminOrder(payment, OrderStatus.COMPLETED, from.plusDays(dayOfOrder));
         order2.setGrossValue(new BigDecimal("10.00"));
         adminOrderRepository.save(order2);
 
-        AdminOrder orderOutOfStatistic = createAdminOrder(payment, OrderStatus.COMPLETED, to.plusDays(1));
+        AdminOrder orderOutOfStatistic = createAdminOrder(payment, OrderStatus.COMPLETED, to.plusDays(dayOfOrder));
         adminOrderRepository.save(orderOutOfStatistic);
 
+        BigDecimal totalValueOfOrders = order.getGrossValue().add(order2.getGrossValue());
+
         //When
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/admin/orders/stats/{from}/{to}", from, to))
+        MvcResult mvcResult = mockMvc.perform(get("/admin/orders/stats/{from}/{to}", from, to))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -60,6 +63,6 @@ class AdminOrderStatsControllerTest extends AbstractConfiguredTest {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         AdminOrderStats returnedStats = objectMapper.readValue(contentAsString, AdminOrderStats.class);
         assertEquals(daysOfOrderStatistic, returnedStats.getOrder().size());
-        assertEquals(order.getGrossValue().add(order2.getGrossValue()), returnedStats.getSale().get(0));
+        assertEquals(totalValueOfOrders, returnedStats.getSale().get(dayOfOrder));
     }
 }
