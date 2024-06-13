@@ -29,6 +29,7 @@ public class AdminProduct {
     private String description;
     private String fullDescription;
     private BigDecimal price;
+    private BigDecimal salePrice;
     @Enumerated(EnumType.STRING)
     private AdminProductCurrency currency;
     private String image;

@@ -15,6 +15,7 @@ public class ProductDto {
     private String description;
     private String fullDescription;
     private BigDecimal price;
+    private BigDecimal salePrice;
     private String currency;
     private String image;
     private String slug;

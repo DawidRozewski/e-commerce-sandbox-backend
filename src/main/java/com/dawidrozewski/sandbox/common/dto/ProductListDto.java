@@ -12,6 +12,7 @@ public class ProductListDto {
     private String name;
     private String description;
     private BigDecimal price;
+    private BigDecimal salePrice;
     private String currency;
     private String image;
     private String slug;
