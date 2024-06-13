@@ -38,14 +38,31 @@ app:
   email:
     sender: empty
   serviceAddress: http://localhost:4200
+  payments:
+    p24:
+      testMode: true
+      url: https://secure.przelewy24.pl
+      apiUrl: https://secure.przelewy24.pl/api/v1
+      merchantId: ${MERCHANT_ID}
+      posId: ${POS_ID}
+      urlReturn: http://railway.com/sandbox
+      crc: ${CRC}
+      secretKey: ${SECRET_KEY}
+
+      testUrk: https://sandbox.przelewy24.pl
+      testApiUrl: https://sandbox.przelewy24.pl/api/v1
+      testUrlReturn: http://railway.com/sandbox
+      testCrc: ${TEST_CRC}
+      testSecretKey: ${TEST_SECRET_KEY}
 
 logging:
   level:
     org:
       springframework:
         web: info
-        security: debug
+        security: info
 
 jwt:
   expireTime: ${EXPIRE_TIME}
   secret: ${JWT_SECRET}
+

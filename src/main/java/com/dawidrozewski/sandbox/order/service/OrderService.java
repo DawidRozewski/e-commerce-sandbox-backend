@@ -6,6 +6,7 @@ import com.dawidrozewski.sandbox.common.repository.CartItemRepository;
 import com.dawidrozewski.sandbox.common.repository.CartRepository;
 import com.dawidrozewski.sandbox.order.model.Order;
 import com.dawidrozewski.sandbox.order.model.Payment;
+import com.dawidrozewski.sandbox.order.model.PaymentType;
 import com.dawidrozewski.sandbox.order.model.Shipment;
 import com.dawidrozewski.sandbox.order.model.dto.OrderDto;
 import com.dawidrozewski.sandbox.order.model.dto.OrderListDto;
@@ -14,6 +15,7 @@ import com.dawidrozewski.sandbox.order.repository.OrderRepository;
 import com.dawidrozewski.sandbox.order.repository.OrderRowRepository;
 import com.dawidrozewski.sandbox.order.repository.PaymentRepository;
 import com.dawidrozewski.sandbox.order.repository.ShipmentRepository;
+import com.dawidrozewski.sandbox.order.service.payment.p24.PaymentMethodP24;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,7 @@ public class OrderService {
     private final ShipmentRepository shipmentRepository;
     private final PaymentRepository paymentRepository;
     private final EmailClientService emailClientService;
+    private final PaymentMethodP24 paymentMethodP24;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
@@ -50,8 +53,15 @@ public class OrderService {
         saveOrderRows(cart, newOrder.getId(), shipment);
         clearOrderCart(orderDto);
         sendConfirmEmail(newOrder);
+        String redirectUrl = initPaymentIfNeeded(newOrder);
+        return createOrderSummary(newOrder, payment, redirectUrl);
+    }
 
-        return createOrderSummary(newOrder, payment);
+    private String initPaymentIfNeeded(Order newOrder) {
+        if (newOrder.getPayment().getType() == PaymentType.P24_ONLINE) {
+           return paymentMethodP24.initPayment(newOrder);
+        }
+        return null;
     }
 
     private void sendConfirmEmail(Order newOrder) {
