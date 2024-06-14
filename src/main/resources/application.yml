@@ -45,13 +45,15 @@ app:
       apiUrl: https://secure.przelewy24.pl/api/v1
       merchantId: ${MERCHANT_ID}
       posId: ${POS_ID}
-      urlReturn: http://railway.com/sandbox
+      urlReturn: http://railway.com/sandbox-frontend
+      urlStatus: http://railway.com/sandbox-backend
       crc: ${CRC}
       secretKey: ${SECRET_KEY}
 
       testUrk: https://sandbox.przelewy24.pl
       testApiUrl: https://sandbox.przelewy24.pl/api/v1
-      testUrlReturn: http://railway.com/sandbox
+      testUrlReturn: http://railway.com/sandbox-frontend
+      testUrlStatus: http://railway.com/sandbox-backend
       testCrc: ${TEST_CRC}
       testSecretKey: ${TEST_SECRET_KEY}
 

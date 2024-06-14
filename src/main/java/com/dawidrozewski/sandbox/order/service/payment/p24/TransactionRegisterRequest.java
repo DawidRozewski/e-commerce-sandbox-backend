@@ -17,6 +17,7 @@ public class TransactionRegisterRequest {
     private String country;
     private String language;
     private String urlReturn;
+    private String urlStatus;
     private String sign;
     private String encoding;
 }

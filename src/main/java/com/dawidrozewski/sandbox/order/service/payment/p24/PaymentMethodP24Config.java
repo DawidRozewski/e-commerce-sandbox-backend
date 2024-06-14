@@ -17,12 +17,14 @@ public class PaymentMethodP24Config {
     private Integer merchantId;
     private Integer posId;
     private String urlReturn;
+    private String urlStatus;
     private String crc;
     private String secretKey;
 
     private String testUrl;
     private String testApiUrl;
     private String testUrlReturn;
+    private String testUrlStatus;
     private String testCrc;
     private String testSecretKey;
 }

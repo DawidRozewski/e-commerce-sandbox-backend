@@ -2,15 +2,19 @@ package com.dawidrozewski.sandbox.order.service;
 
 import com.dawidrozewski.sandbox.common.mail.EmailClientService;
 import com.dawidrozewski.sandbox.common.model.Cart;
+import com.dawidrozewski.sandbox.common.model.OrderStatus;
 import com.dawidrozewski.sandbox.common.repository.CartItemRepository;
 import com.dawidrozewski.sandbox.common.repository.CartRepository;
 import com.dawidrozewski.sandbox.order.model.Order;
+import com.dawidrozewski.sandbox.order.model.OrderLog;
 import com.dawidrozewski.sandbox.order.model.Payment;
 import com.dawidrozewski.sandbox.order.model.PaymentType;
 import com.dawidrozewski.sandbox.order.model.Shipment;
+import com.dawidrozewski.sandbox.order.model.dto.NotificationReceiveDto;
 import com.dawidrozewski.sandbox.order.model.dto.OrderDto;
 import com.dawidrozewski.sandbox.order.model.dto.OrderListDto;
 import com.dawidrozewski.sandbox.order.model.dto.OrderSummary;
+import com.dawidrozewski.sandbox.order.repository.OrderLogRepository;
 import com.dawidrozewski.sandbox.order.repository.OrderRepository;
 import com.dawidrozewski.sandbox.order.repository.OrderRowRepository;
 import com.dawidrozewski.sandbox.order.repository.PaymentRepository;
@@ -21,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.dawidrozewski.sandbox.order.service.mapper.OrderDtoMapper.mapToOrderListDto;
@@ -43,6 +48,7 @@ public class OrderService {
     private final PaymentRepository paymentRepository;
     private final EmailClientService emailClientService;
     private final PaymentMethodP24 paymentMethodP24;
+    private final OrderLogRepository orderLogRepository;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
@@ -59,7 +65,7 @@ public class OrderService {
 
     private String initPaymentIfNeeded(Order newOrder) {
         if (newOrder.getPayment().getType() == PaymentType.P24_ONLINE) {
-           return paymentMethodP24.initPayment(newOrder);
+            return paymentMethodP24.initPayment(newOrder);
         }
         return null;
     }
@@ -94,4 +100,22 @@ public class OrderService {
         return mapToOrderListDto(orderRepository.findByUserId(userId));
     }
 
+    public Order getOrderByOrderHash(String orderHash) {
+        return orderRepository.findByOrderHash(orderHash).orElseThrow();
+    }
+
+    @Transactional
+    public void receiveNotification(String orderHash, NotificationReceiveDto receiveDto) {
+        Order order = getOrderByOrderHash(orderHash);
+        String status = paymentMethodP24.receiveNotification(order, receiveDto);
+        if(status.equals("success")) {
+            order.setOrderStatus(OrderStatus.PAID);
+            orderLogRepository.save(OrderLog.builder()
+                            .created(LocalDateTime.now())
+                            .orderId(order.getId())
+                            .note("The order was paid for by 'Transfers 24'. Payment id :" + receiveDto.getStatement() +
+                                    ". Changed status for "+ order.getOrderStatus().getValue())
+                    .build());
+        }
+    }
 }
