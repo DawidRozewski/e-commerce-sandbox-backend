@@ -105,9 +105,9 @@ public class OrderService {
     }
 
     @Transactional
-    public void receiveNotification(String orderHash, NotificationReceiveDto receiveDto) {
+    public void receiveNotification(String orderHash, NotificationReceiveDto receiveDto, String remoteAddr) {
         Order order = getOrderByOrderHash(orderHash);
-        String status = paymentMethodP24.receiveNotification(order, receiveDto);
+        String status = paymentMethodP24.receiveNotification(order, receiveDto, remoteAddr);
         if(status.equals("success")) {
             order.setOrderStatus(OrderStatus.PAID);
             orderLogRepository.save(OrderLog.builder()

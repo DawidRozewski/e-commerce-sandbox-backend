@@ -26,11 +26,11 @@ public class PaymentMethodP24 {
 
         WebClient webClient = WebClient.builder()
                 .defaultHeader(HttpHeaders.encodeBasicAuth(
-                        config.getPosId().toString(),
-                        config.isTestMode() ?
-                        config.getTestSecretKey() :
-                        config.getSecretKey(),
-                        StandardCharsets.UTF_8
+                                config.getPosId().toString(),
+                                config.isTestMode() ?
+                                        config.getTestSecretKey() :
+                                        config.getSecretKey(),
+                                StandardCharsets.UTF_8
                         )
                 ).baseUrl(config.isTestMode() ? config.getTestApiUrl() : config.getApiUrl())
                 .build();
@@ -42,7 +42,7 @@ public class PaymentMethodP24 {
                         .sessionId(createSessionId(newOrder))
                         .amount(convertAmountToInteger(newOrder))
                         .currency("PLN")
-                        .description("Order id: " +newOrder.getId())
+                        .description("Order id: " + newOrder.getId())
                         .email(newOrder.getEmail())
                         .client(newOrder.getFirstname() + " " + newOrder.getLastname())
                         .country("PL")
@@ -60,7 +60,7 @@ public class PaymentMethodP24 {
                 .toEntity(TransactionRegisterResponse.class)
                 .block();
 
-        if(result != null && result.getBody() != null && result.getBody().getData() != null) {
+        if (result != null && result.getBody() != null && result.getBody().getData() != null) {
             return (config.isTestMode() ? config.getTestUrl() : config.getUrl()) +
                     "/trnRequest/" +
                     result.getBody().getData().token();
@@ -99,10 +99,17 @@ public class PaymentMethodP24 {
         return "order_id_" + newOrder.getId().toString();
     }
 
-    public String receiveNotification(Order order, NotificationReceiveDto receiveDto) {
+    public String receiveNotification(Order order, NotificationReceiveDto receiveDto, String remoteAddr) {
         log.info(receiveDto.toString());
+        validateIpAddress(remoteAddr);
         validate(receiveDto, order);
         return verifyPayment(receiveDto, order);
+    }
+
+    private void validateIpAddress(String remoteAddr) {
+        if (!config.getServers().contains(remoteAddr)) {
+            throw new RuntimeException("Incorrect IP address for confirm payment.");
+        }
     }
 
     private String verifyPayment(NotificationReceiveDto receiveDto, Order order) {
@@ -175,7 +182,7 @@ public class PaymentMethodP24 {
     }
 
     private void validateField(boolean condition) {
-        if(!condition) {
+        if (!condition) {
             throw new RuntimeException("Validation failed.");
         }
     }

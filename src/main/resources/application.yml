@@ -57,6 +57,10 @@ app:
       testCrc: ${TEST_CRC}
       testSecretKey: ${TEST_SECRET_KEY}
 
+      servers[0]: 5.252.202.254
+      servers[1]: 5.252.202.255
+      servers[2]: 20.215.81.124
+
 logging:
   level:
     org:

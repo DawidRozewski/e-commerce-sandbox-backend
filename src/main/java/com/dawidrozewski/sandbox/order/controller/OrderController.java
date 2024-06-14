@@ -11,6 +11,7 @@ import com.dawidrozewski.sandbox.order.model.dto.OrderSummary;
 import com.dawidrozewski.sandbox.order.service.OrderService;
 import com.dawidrozewski.sandbox.order.service.PaymentService;
 import com.dawidrozewski.sandbox.order.service.ShipmentService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -63,8 +64,9 @@ public class OrderController {
 
     @PostMapping("/notification/{orderHash}")
     public void notificationReceive(@PathVariable @Length(max = 12) String orderHash,
-                                    @RequestBody NotificationReceiveDto receiveDto) {
-        orderService.receiveNotification(orderHash, receiveDto);
+                                    @RequestBody NotificationReceiveDto receiveDto,
+                                    HttpServletRequest request) {
+        orderService.receiveNotification(orderHash, receiveDto, request.getRemoteAddr());
     }
 
 }
