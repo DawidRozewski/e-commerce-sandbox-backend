@@ -2,6 +2,7 @@ package com.dawidrozewski.sandbox.security.controller;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.dawidrozewski.sandbox.security.exception.RegisterException;
 import com.dawidrozewski.sandbox.security.model.SandboxUserDetails;
 import com.dawidrozewski.sandbox.security.model.User;
 import com.dawidrozewski.sandbox.security.model.UserRole;
@@ -49,10 +50,10 @@ public class LoginController {
     @PostMapping("/register")
     public Token register(@RequestBody @Valid RegisterCredentials registerCredentials) {
         if (!registerCredentials.getPassword().equals(registerCredentials.getRepeatPassword())) {
-            throw new IllegalArgumentException("Passwords do not match");
+            throw new RegisterException("Passwords do not match");
         }
         if (userRepository.existsByUsername(registerCredentials.getUsername())) {
-            throw new IllegalArgumentException("User already exist");
+            throw new RegisterException("User already exist");
         }
         userRepository.save(User.builder()
                 .username(registerCredentials.getUsername())

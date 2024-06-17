@@ -4,16 +4,11 @@ import com.dawidrozewski.sandbox.order.model.Order;
 import com.dawidrozewski.sandbox.order.model.dto.NotificationReceiveDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 
 import static com.dawidrozewski.sandbox.order.service.payment.p24.RequestUtil.createRegisterRequest;
 import static com.dawidrozewski.sandbox.order.service.payment.p24.RequestUtil.createVerifyRequest;
