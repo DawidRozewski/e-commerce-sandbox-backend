@@ -7,6 +7,7 @@ import com.dawidrozewski.sandbox.product.service.dto.ProductDto;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +43,7 @@ public class ProductController {
     }
 
     @GetMapping("/products/{slug}")
+    @Cacheable("productBySlug")
     public ProductDto getProduct(
             @PathVariable
             @Pattern(regexp = "[a-z0-9\\-]+")
