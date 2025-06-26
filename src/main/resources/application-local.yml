@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: sandbox
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: admin
+    password: admin
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  liquibase:
+    enabled: false
+  jpa:
+    hibernate:
+     ddl-auto: none

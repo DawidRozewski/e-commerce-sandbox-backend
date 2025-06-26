@@ -35,7 +35,7 @@ public class Helper {
                 .build();
     }
 
-    public static Product createProduct(long categoryId,BigDecimal price, String slug) {
+    public static Product createProduct(long categoryId, BigDecimal price, String slug) {
         return Product.builder()
                 .price(price)
                 .image("vans.jpg")

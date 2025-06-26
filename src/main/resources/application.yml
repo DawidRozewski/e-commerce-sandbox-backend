@@ -2,9 +2,9 @@ spring:
     application:
       name: sandbox
     datasource:
-      url: ${DB_URL}
-      username: ${DB_USER}
-      password: ${DB_PASSWORD}
+      url: ${DB_URL:jdbc:mysql://localhost:3306/sandbox}
+      username: ${DB_USER:dbUser}
+      password: ${DB_PASSWORD:dbPass}
     liquibase:
       change-log: classpath:liquibase-changelog.xml
     data:
@@ -15,8 +15,8 @@ spring:
     mail:
       host: smtp.gmail.com
       port: 587
-      username: ${MAIL_ACC}
-      password: ${MAIL_PASSWORD}
+      username: ${MAIL_ACC:mailAcc}
+      password: ${MAIL_PASSWORD:mailPass}
       properties:
         mail:
           smtp:
@@ -43,19 +43,19 @@ app:
       testMode: true
       url: https://secure.przelewy24.pl
       apiUrl: https://secure.przelewy24.pl/api/v1
-      merchantId: ${MERCHANT_ID}
-      posId: ${POS_ID}
+      merchantId: ${MERCHANT_ID:123}
+      posId: ${POS_ID:12}
       urlReturn: http://railway.com/sandbox-frontend
       urlStatus: http://railway.com/sandbox-backend
-      crc: ${CRC}
-      secretKey: ${SECRET_KEY}
+      crc: ${CRC:testCrc1}
+      secretKey: ${SECRET_KEY:secretKey}
 
       testUrk: https://sandbox.przelewy24.pl
       testApiUrl: https://sandbox.przelewy24.pl/api/v1
       testUrlReturn: http://railway.com/sandbox-frontend
       testUrlStatus: http://railway.com/sandbox-backend
-      testCrc: ${TEST_CRC}
-      testSecretKey: ${TEST_SECRET_KEY}
+      testCrc: ${TEST_CRC:testCrc2}
+      testSecretKey: ${TEST_SECRET_KEY:testSecretKey}
 
       servers[0]: 5.252.202.254
       servers[1]: 5.252.202.255
@@ -69,6 +69,6 @@ logging:
         security: info
 
 jwt:
-  expireTime: ${EXPIRE_TIME}
-  secret: ${JWT_SECRET}
+  expireTime: ${EXPIRE_TIME:86400}
+  secret: ${JWT_SECRET:secretKey}
 
